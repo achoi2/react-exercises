@@ -603,14 +603,20 @@ let blogs = [
 
 let h = React.createElement;
 
+let BlogTitle = (title) => h('h2', null, title)
+
+let BlogBody = (body) => h('h3', null, body)
+
+let BlogId = (id) => h('h4', null, id)
+
 
 let page = h('div', {}, 
     [h('h1', {}, 'React Blog'),
     h('ul', {}, blogs.map(blog => {
         return h('li', {}, [
-            h('h2', {}, blog.title),
-            h('p', {}, blog.body),
-            h('h6', {}, `Author UserID: ${blog.userId}`)
+            BlogTitle(blog.title),
+            BlogBody(blog.body),
+            BlogId(`Author UserID: ${blog.userId}`)
         ])
     })),
         h('a', { href: 'https://jsonplaceholder.typicode.com/posts'}, 'copyright 2018')
