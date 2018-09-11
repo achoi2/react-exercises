@@ -603,25 +603,45 @@ let blogs = [
 
 let h = React.createElement;
 
-let BlogTitle = (title) => h('h2', null, title)
-
-let BlogBody = (body) => h('h3', null, body)
-
-let BlogId = (id) => h('h4', null, id)
 
 
-let page = h('div', {}, 
+let BlogTitle = (props) => h('li', null, [
+    h('h2', null, props.title),
+    h('button', {
+        // onClick: () => { 
+        //     blogs 
+        // }
+    }, 'add an s') 
+]) 
+
+let BlogBody = (props) => h('li', null, [
+    h('h2', {}, props.body),
+    
+])
+
+let BlogId = (props) => h('h4', null, props.id)
+
+
+let page = (props) => h('div', {}, 
     [h('h1', {}, 'React Blog'),
-    h('ul', {}, blogs.map(blog => {
-        return h('li', {}, [
-            BlogTitle(blog.title),
-            BlogBody(blog.body),
-            BlogId(`Author UserID: ${blog.userId}`)
+    h('ul', {}, props.blogs.map(blog => 
+        h('li', {}, [
+            h(BlogTitle, {title: blog.title}),
+            h(BlogBody, {body: blog.body}),
+            h(BlogId, {id: `Author UserID: ${blog.userId}`}),
+            h('button', {
+                onClick: () => {
+                    blogs = blogs.filter(post => post.id !== blog.id)
+                    rerender()
+                }
+            }, 'delete me'),
+            h('button', {}, 'snakifiy')
         ])
-    })),
+    )),
         h('a', { href: 'https://jsonplaceholder.typicode.com/posts'}, 'copyright 2018')
 ]
 );
 
+let rerender = () => ReactDOM.render(h(page, {blogs}), document.querySelector('.root'));
 
-ReactDOM.render(page, document.querySelector('.root'));
+rerender();
